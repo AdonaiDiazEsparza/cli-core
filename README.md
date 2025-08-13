@@ -9,8 +9,13 @@ By separating the core logic from the communication layer, CLI-core enables deve
 ---
 
 ## Key Features
+
 **Portable C Code:** Written in standard C, ensuring high portability across different architectures and compilers.
+
 **Protocol Agnostic:** The core logic is decoupled from the communication protocol, making it adaptable to UART, USB, or any other data stream.
+
 **Modular Design:** The library provides a foundation for parsing commands and dispatching functions, allowing you to easily add or remove commands.
+
 **Low Memory Footprint:** Designed with embedded systems in mind, it has a minimal memory and resource overhead.
+
 **Easy Integration:** Simple API for quick integration into existing firmware.
