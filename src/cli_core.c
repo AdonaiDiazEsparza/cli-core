@@ -18,18 +18,10 @@ bool cli_set_print_callback(cli_struct_t *cli_struct, cli_print_t cli_print_call
     return true;
 }
 
-// Configurar array the funciones
-bool cli_set_work_handle_callbacks(cli_struct_t *cli_struct, cli_calls_t cli_calls)
-{
-    if(!cli_struct) return false;
-    cli_struct->calls_for_work = cli_calls;
-    return true;
-}
-
 // Forzar finalizado de proceso
 void cli_forced_exit_process(cli_struct_t *cli_struct)
 {
-    cli_struct->calls_for_work.exit[cli_struct->actual_command](cli_struct->context);
+    cli_struct->commands[cli_struct->actual_command].command_exit_callback(cli_struct->context);
     cli_struct->process_running = false;
 }
 
@@ -37,6 +29,35 @@ void cli_forced_exit_process(cli_struct_t *cli_struct)
 void cli_set_in_process_command(cli_struct_t *cli_struct)
 {
     cli_struct->process_running = true;
+}
+
+// Funcion para copiar un array completo de comandos
+void cli_set_commands(cli_struct_t *cli_struct, cli_command_t commands[], uint16_t count_of_commands)
+{
+    if (!cli_struct)
+        return;
+
+    if (count_of_commands > MAX_COMMANDS)
+    {
+        count_of_commands = MAX_COMMANDS;
+    }
+
+    memcpy(cli_struct->commands, commands, count_of_commands * sizeof(cli_command_t));
+
+    cli_struct->count_of_commands = count_of_commands;
+}
+
+// Funcion para agregar comando uno por uno
+void cli_add_command(cli_struct_t *cli_struct, cli_command_t command)
+{
+    if (!cli_struct)
+        return;
+
+    if (cli_struct->count_of_commands == MAX_COMMANDS)
+        return;
+
+    cli_struct->commands[cli_struct->count_of_commands] = command;
+    cli_struct->count_of_commands++;
 }
 
 // Proceso General del Cli
@@ -50,7 +71,7 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
 
     else if (cli_struct->process_running)
     {
-        cli_struct->calls_for_work.event[cli_struct->actual_command](cli_struct->context, input);
+        cli_struct->commands[cli_struct->actual_command].command_event_callback(cli_struct->context, input);
         return;
     }
 
@@ -59,9 +80,9 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
         const char *cmd = input + 5;
         for (uint32_t i = 0; i < cli_struct->count_of_commands; i++)
         {
-            if (strcmp(cmd, cli_struct->text_commands[i]) == 0)
+            if (strcmp(cmd, cli_struct->commands[i].command_text) == 0)
             {
-                cli_struct->calls_for_work.help[i](cli_struct->context);
+                cli_struct->commands[i].command_help_callback(cli_struct->context);
                 return;
             }
         }
@@ -78,10 +99,10 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
 
     for (uint32_t i = 0; i < cli_struct->count_of_commands; i++)
     {
-        if (strcmp(input, cli_struct->text_commands[i]) == 0)
+        if (strcmp(input, cli_struct->commands[i].command_text) == 0)
         {
             cli_struct->actual_command = i;
-            cli_struct->calls_for_work.execute[i](cli_struct->context);
+            cli_struct->commands[cli_struct->actual_command].command_execute_callback(cli_struct->context);
             return;
         }
     }
