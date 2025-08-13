@@ -16,6 +16,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define MAX_COMMANDS 255
+#define MAX_LEN_COMMAND 64
+
 // Tipos de funciones de comando
 typedef void (*cli_calls_for_help_t)(void* context);
 typedef void (*cli_calls_for_execute_t)(void* context);
@@ -40,7 +43,7 @@ typedef struct {
     cli_print_t     cli_print;          // Funcion para imprimir en cli
     cli_help_t      cli_help;           // Funcion para llamar a ayuda (help)
     void*           context;            // Contexto común
-    const char**    text_commands;      // Array de strings con los nombres de comandos
+    const char      text_commands[255][64];      // Array de strings con los nombres de comandos
     uint32_t        actual_command;     // Índice del comando actual ejecutado
     uint32_t        count_of_commands;  // Total de comandos registrados
     bool            process_running;    // Para saber si un proceso esta corriendo
