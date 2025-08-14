@@ -103,7 +103,6 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
                 return;
             }
         }
-        cli_struct->cli_print("Comando '%s' no encontrado.\r\n", cmd);
         cli_struct->cli_help(cli_struct->context);
         return;
     }
@@ -124,6 +123,5 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
         }
     }
 
-    cli_struct->cli_print("Comando no reconocido: %s\r\n", input);
     cli_struct->cli_help(cli_struct->context);
 }
