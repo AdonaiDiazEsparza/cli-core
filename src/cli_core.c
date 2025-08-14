@@ -25,6 +25,18 @@ void cli_forced_exit_process(cli_struct_t *cli_struct)
     cli_struct->process_running = false;
 }
 
+// Terminar proceso sin llamar a la funcion exit
+void cli_stop_process(cli_struct_t *cli_struct)
+{
+    cli_struct->process_running = false;
+}
+
+// Comenzar el proceso
+void cli_start_process(cli_struct_t *cli_struct)
+{
+    cli_struct->process_running = true;
+}
+
 // Funcion para para poner que un comando este en proceso
 void cli_set_in_process_command(cli_struct_t *cli_struct)
 {
@@ -60,6 +72,11 @@ void cli_add_command(cli_struct_t *cli_struct, cli_command_t command)
     cli_struct->count_of_commands++;
 }
 
+uint16_t cli_get_commands_count(cli_struct_t *cli_struct)
+{
+    return cli_struct->count_of_commands;
+}
+
 // Proceso General del Cli
 void cli_process_input(cli_struct_t *cli_struct, const char *input)
 {
@@ -87,13 +104,13 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
             }
         }
         cli_struct->cli_print("Comando '%s' no encontrado.\r\n", cmd);
-        cli_struct->cli_help();
+        cli_struct->cli_help(cli_struct->context);
         return;
     }
 
     else if (strncmp(input, "help", 4) == 0)
     {
-        cli_struct->cli_help();
+        cli_struct->cli_help(cli_struct->context);
         return;
     }
 
@@ -108,5 +125,5 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
     }
 
     cli_struct->cli_print("Comando no reconocido: %s\r\n", input);
-    cli_struct->cli_help();
+    cli_struct->cli_help(cli_struct->context);
 }

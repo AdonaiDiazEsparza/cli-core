@@ -27,7 +27,7 @@ typedef void (*cli_calls_for_exit_t)(void *context);
 
 // Tipo de funciones para configuracion y comando
 typedef void (*cli_print_t)(const char *format, ...); // Funcion para imprimir datos
-typedef void (*cli_help_t)(void);                     // Funcion de llamado de help o ayud
+typedef void (*cli_help_t)(void* context);                     // Funcion de llamado de help o ayud
 
 // Estructura para cada comando
 typedef struct
@@ -55,6 +55,9 @@ bool cli_set_help_callback(cli_struct_t *cli_struct, cli_help_t help_callback);
 bool cli_set_print_callback(cli_struct_t *cli_struct, cli_print_t cli_print_callback);
 void cli_set_commands(cli_struct_t *cli_struct, cli_command_t commands[], uint16_t count_of_commands);
 void cli_add_command(cli_struct_t *cli_struct, cli_command_t command);
+uint16_t cli_get_commands_count(cli_struct_t *cli_struct);
 void cli_forced_exit_process(cli_struct_t *cli_struct);
+void cli_stop_process(cli_struct_t *cli_struct);
+void cli_start_process(cli_struct_t *cli_struct);
 void cli_set_in_process_command(cli_struct_t *cli_struct);
 void cli_process_input(cli_struct_t *cli_struct, const char *input);
