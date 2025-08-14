@@ -55,13 +55,13 @@ cli_struct_t cli = {0};
 
 cli_command_t commands[2] = {
     {.command_text = "first_command",
-     .command_help_callback = first_command_help,
+     .text_help = "This is the first command\nShows the need it help for it",
      .command_execute_callback = first_command_execute,
      .command_event_callback = first_command_event,
      .command_exit_callback = first_command_exit},
 
     {.command_text = "second_command",
-     .command_help_callback = second_command_help,
+     .text_help = "This command shows 'Hello World!' on terminal",
      .command_execute_callback = second_command_execute,
      .command_event_callback = second_command_event,
      .command_exit_callback = second_command_exit},
@@ -69,7 +69,7 @@ cli_command_t commands[2] = {
 
 cli_command_t command_to_add = {
     .command_text = "Added",
-    .command_help_callback = command_added_help,
+    .text_help = "This is the message for help in the last command\n this was added by the function 'cli_add_command'",
     .command_execute_callback = command_added_execute,
     .command_event_callback = command_added_event,
     .command_exit_callback = command_added_exit};
@@ -112,19 +112,11 @@ int main()
 //              CALLBACKS FOR FIRST COMMAND
 // ===============================================
 
-void first_command_help(void *context)
-{
-    UNUSED(context); // By the moment is not used
-
-    print_func("first command help!\n");
-    print_func("This show the help for this command\n");
-}
-
 void first_command_execute(void *context)
 {
     UNUSED(context); // By the moment is not used
 
-    print_func("When it is used to init or enter to the command!\n");
+    print_func("When it is used to init or enter to the command!\nThis command will be in execution\n");
 
     cli_start_process(&cli);
 }
@@ -143,19 +135,12 @@ void first_command_exit(void *context)
 {
     UNUSED(context); // By the moment is not used
 
-    print_func("When you exit from the data\n");
+    print_func("When you exit from the command execution\n");
 }
 
 // ===============================================
 //              CALLBACKS FOR SECOND COMMAND
 // ===============================================
-
-void second_command_help(void *context)
-{
-    UNUSED(context); // By the momemt is not used
-
-    print_func("This command shows 'Hello World!'\n");
-}
 
 void second_command_execute(void *context)
 {
@@ -180,13 +165,6 @@ void second_command_exit(void *context)
 // ===============================================
 //              CALLBACKS FOR SECOND COMMAND
 // ===============================================
-
-void command_added_help(void *context)
-{
-    UNUSED(context); // By the momemt is not used
-
-    print_func("This command shows 'Command Added!'\n");
-}
 
 void command_added_execute(void *context)
 {

@@ -18,6 +18,7 @@
 
 #define MAX_COMMANDS 16565
 #define MAX_LEN_COMMAND 64
+#define HELP_LEN 1024
 
 // Tipos de funciones de comando
 typedef void (*cli_calls_for_help_t)(void *context);
@@ -33,7 +34,7 @@ typedef void (*cli_help_t)(void* context);                     // Funcion de lla
 typedef struct
 {
     char command_text[MAX_LEN_COMMAND];
-    cli_calls_for_help_t command_help_callback;
+    char text_help[HELP_LEN];
     cli_calls_for_execute_t command_execute_callback;
     cli_calls_for_event_t command_event_callback;
     cli_calls_for_exit_t command_exit_callback;

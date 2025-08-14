@@ -99,7 +99,7 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
         {
             if (strcmp(cmd, cli_struct->commands[i].command_text) == 0)
             {
-                cli_struct->commands[i].command_help_callback(cli_struct->context);
+                cli_struct->cli_print("%s\n", cli_struct->commands[i].text_help);
                 return;
             }
         }
