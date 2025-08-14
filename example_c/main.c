@@ -85,11 +85,6 @@ int main()
 
     cli_add_command(&cli, command_to_add);
 
-    printf("TOTAL COUNT = %u\n", cli.count_of_commands);
-    printf("Command [0] = %s\n", cli.commands[0].command_text);
-    printf("Command [1] = %s\n", cli.commands[1].command_text);
-    printf("Command [2] = %s\n", cli.commands[2].command_text);
-
     cli_set_print_callback(&cli, print_func);
 
     cli_set_help_callback(&cli, general_help);
@@ -98,7 +93,14 @@ int main()
 
     while (true)
     {
-        scanf("%s", command_to_receive);
+        printf("> ");
+
+        fgets(command_to_receive, sizeof(command_to_receive), stdin);
+        
+        size_t len = strlen(command_to_receive);
+        if (len > 0 && command_to_receive[len-1] == '\n') {
+            command_to_receive[len-1] = '\0';
+        }
 
         cli_process_input(&cli, command_to_receive);
     }
@@ -123,6 +125,8 @@ void first_command_execute(void *context)
     UNUSED(context); // By the moment is not used
 
     print_func("When it is used to init or enter to the command!\n");
+
+    cli_start_process(&cli);
 }
 
 bool first_command_event(void *context, const char *data)
@@ -131,8 +135,6 @@ bool first_command_event(void *context, const char *data)
 
     print_func("This is the function when the command is in execution\n");
     print_func("Data received in first command: %s\n", data);
-
-    cli_forced_exit_process(&cli);
 
     return false;
 }
@@ -158,7 +160,7 @@ void second_command_help(void *context)
 void second_command_execute(void *context)
 {
     UNUSED(context); // By the momemt is not used
-    print_func("Hello World!");
+    print_func("Hello World!\n");
 
     cli_stop_process(&cli);
 }
@@ -231,5 +233,6 @@ void print_func(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    printf(format, args);
+    vprintf(format, args);
+    va_end(args);
 }
