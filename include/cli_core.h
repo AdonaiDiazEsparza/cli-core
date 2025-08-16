@@ -21,7 +21,6 @@
 #define HELP_LEN 1024
 
 // Tipos de funciones de comando
-typedef void (*cli_calls_for_help_t)(void *context);
 typedef void (*cli_calls_for_execute_t)(void *context);
 typedef bool (*cli_calls_for_event_t)(void *context, const char *data);
 typedef void (*cli_calls_for_exit_t)(void *context);

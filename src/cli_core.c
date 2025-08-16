@@ -21,6 +21,13 @@ bool cli_set_print_callback(cli_struct_t *cli_struct, cli_print_t cli_print_call
 // Forzar finalizado de proceso
 void cli_forced_exit_process(cli_struct_t *cli_struct)
 {
+    // Si no existe funcion de exit
+    if (cli_struct->commands[cli_struct->actual_command].command_exit_callback == 0)
+    {
+        cli_struct->cli_print("Exit callback doesnt exist");
+        return;
+    }
+
     cli_struct->commands[cli_struct->actual_command].command_exit_callback(cli_struct->context);
     cli_struct->process_running = false;
 }
@@ -88,7 +95,14 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
 
     else if (cli_struct->process_running)
     {
-        cli_struct->commands[cli_struct->actual_command].command_event_callback(cli_struct->context, input);
+        if (cli_struct->commands[cli_struct->actual_command].command_event_callback != 0)
+        {
+            cli_struct->commands[cli_struct->actual_command].command_event_callback(cli_struct->context, input);
+        }
+        else
+        {
+            cli_struct->process_running = false;
+        }
         return;
     }
 
@@ -118,7 +132,15 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
         if (strcmp(input, cli_struct->commands[i].command_text) == 0)
         {
             cli_struct->actual_command = i;
-            cli_struct->commands[cli_struct->actual_command].command_execute_callback(cli_struct->context);
+
+            if (cli_struct->commands[cli_struct->actual_command].command_execute_callback != 0)
+            {
+                cli_struct->commands[cli_struct->actual_command].command_execute_callback(cli_struct->context);
+            }
+            else
+            {
+                cli_struct->cli_print("Cli for execute dosent exist");
+            }
             return;
         }
     }
