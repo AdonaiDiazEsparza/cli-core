@@ -24,7 +24,7 @@ void cli_forced_exit_process(cli_struct_t *cli_struct)
     // Si no existe funcion de exit
     if (cli_struct->commands[cli_struct->actual_command].command_exit_callback == 0)
     {
-        cli_struct->cli_print("Exit callback doesnt exist");
+        cli_struct->cli_print("Exit callback doesnt exist\n");
         return;
     }
 
@@ -139,7 +139,7 @@ void cli_process_input(cli_struct_t *cli_struct, const char *input)
             }
             else
             {
-                cli_struct->cli_print("Cli for execute dosent exist");
+                cli_struct->cli_print("Call for execute dosent exist\n");
             }
             return;
         }
