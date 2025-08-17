@@ -1,6 +1,6 @@
 #include "cli_core.h"
 
-// Configurar funcion callback de ayuda
+// Set general help callback
 bool cli_set_help_callback(cli_struct_t *cli_struct, cli_help_t help_callback)
 {
     if (!cli_struct)
@@ -9,7 +9,7 @@ bool cli_set_help_callback(cli_struct_t *cli_struct, cli_help_t help_callback)
     return true;
 }
 
-// Configurar funcion callback para imprimir datos
+// Set the print callback
 bool cli_set_print_callback(cli_struct_t *cli_struct, cli_print_t cli_print_callback)
 {
     if (!cli_struct)
@@ -18,7 +18,7 @@ bool cli_set_print_callback(cli_struct_t *cli_struct, cli_print_t cli_print_call
     return true;
 }
 
-// Set the context by the CLI
+// Set the context for the CLI
 void cli_set_context(cli_struct_t *cli_struct, void *context){
 
     if(!context) return;
@@ -26,7 +26,7 @@ void cli_set_context(cli_struct_t *cli_struct, void *context){
     cli_struct->context = context;
 }
 
-// Forzar finalizado de proceso
+// Forced to finalize a process 
 void cli_forced_exit_process(cli_struct_t *cli_struct)
 {
     // Si no existe funcion de exit
@@ -40,25 +40,19 @@ void cli_forced_exit_process(cli_struct_t *cli_struct)
     cli_struct->process_running = false;
 }
 
-// Terminar proceso sin llamar a la funcion exit
+// Finish the process
 void cli_stop_process(cli_struct_t *cli_struct)
 {
     cli_struct->process_running = false;
 }
 
-// Comenzar el proceso
+// Start the process
 void cli_start_process(cli_struct_t *cli_struct)
 {
     cli_struct->process_running = true;
 }
 
-// Funcion para para poner que un comando este en proceso
-void cli_set_in_process_command(cli_struct_t *cli_struct)
-{
-    cli_struct->process_running = true;
-}
-
-// Funcion para copiar un array completo de comandos
+// Function to set all the commands for the CLI
 void cli_set_commands(cli_struct_t *cli_struct, cli_command_t commands[], uint16_t count_of_commands)
 {
     if (!cli_struct)
@@ -74,7 +68,7 @@ void cli_set_commands(cli_struct_t *cli_struct, cli_command_t commands[], uint16
     cli_struct->count_of_commands = count_of_commands;
 }
 
-// Funcion para agregar comando uno por uno
+// Function to add a command
 void cli_add_command(cli_struct_t *cli_struct, cli_command_t command)
 {
     if (!cli_struct)
@@ -87,12 +81,13 @@ void cli_add_command(cli_struct_t *cli_struct, cli_command_t command)
     cli_struct->count_of_commands++;
 }
 
+// Function to get the commands count
 uint16_t cli_get_commands_count(cli_struct_t *cli_struct)
 {
     return cli_struct->count_of_commands;
 }
 
-// Proceso General del Cli
+// General process 
 void cli_process_input(cli_struct_t *cli_struct, const char *input)
 {
     if (cli_struct->process_running && strncmp(input, "exit", 4) == 0)
