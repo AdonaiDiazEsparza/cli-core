@@ -6,7 +6,6 @@ By separating the core logic from the communication layer, CLI-core enables deve
 >[!CAUTION]
 >This repository and core is still on development, do not use for new projects
 
----
 
 ## Key Features
 
@@ -20,13 +19,10 @@ By separating the core logic from the communication layer, CLI-core enables deve
 
 **Easy Integration:** Simple API for quick integration into existing firmware.
 
----
 
 ## How to start?
 
 Follow these steps to create and register your own CLI commands:
-
----
 
 ### **Step 1 – Define the command structure**
 
@@ -50,7 +46,7 @@ typedef struct
 Each command must implement the following functions:
 
 - Execute callback → runs when the command is invoked.
-```
+```c
 void my_command_execute(void* context) {
     printf("Command executed!\n");
 }
@@ -111,7 +107,7 @@ cli_set_print_callback(&cli, my_print_function);
 cli_set_help_callback(&cli, my_general_help_function);
 ```
 
-## Step 6 - Run CLI
+### Step 6 - Run CLI
 
 And that's all the process you need, run the cli with ```cli_process_input```. To run the cli needs to be on loop (like while), for example the next code received the text from terminal and pass teh string values to the cli function:
 ```c
@@ -128,5 +124,4 @@ while (true)
    cli_process_input(&cli, command_to_receive);
 }
 
----
 
