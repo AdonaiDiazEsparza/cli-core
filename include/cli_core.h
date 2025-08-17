@@ -16,9 +16,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define MAX_COMMANDS 16565
+#define MAX_COMMANDS 64
 #define MAX_LEN_COMMAND 64
-#define HELP_LEN 1024
+#define HELP_LEN 512
 
 #ifdef __cplusplus
 extern "C" {
