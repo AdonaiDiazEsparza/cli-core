@@ -50,7 +50,7 @@ typedef struct
 Each command must implement the following functions:
 
 - Execute callback → runs when the command is invoked.
-```
+```c
 void my_command_execute(void* context) {
     printf("Command executed!\n");
 }
