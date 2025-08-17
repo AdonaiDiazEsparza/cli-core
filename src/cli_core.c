@@ -18,6 +18,14 @@ bool cli_set_print_callback(cli_struct_t *cli_struct, cli_print_t cli_print_call
     return true;
 }
 
+// Set the context by the CLI
+void cli_set_context(cli_struct_t *cli_struct, void *context){
+
+    if(!context) return;
+
+    cli_struct->context = context;
+}
+
 // Forzar finalizado de proceso
 void cli_forced_exit_process(cli_struct_t *cli_struct)
 {
