@@ -1,16 +1,5 @@
 #pragma once
 
-/**
- * This is the core for the cli
- * Here I defined the necessary calls and the structs for the CLI
- * This will be used with the UART configuration and the USB configuration
- *
- * At the moment this is the first core for the cli
- * Version: 0.1
- * Date: July 5 2025
- * Author: Adonai Diaz (Donuts Diaz)
- */
-
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
