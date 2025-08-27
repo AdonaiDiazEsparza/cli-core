@@ -1,13 +1,13 @@
 #pragma once
 
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 
-#define MAX_COMMANDS 64
 #define MAX_LEN_COMMAND 64
-#define HELP_LEN 512
+#define HELP_LEN 256
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,7 +35,7 @@ typedef struct
 // General Struct for teh CLI
 typedef struct
 {
-    cli_command_t commands[MAX_COMMANDS]; // Array for the commands struct
+    cli_command_t* commands;              // Array for the commands struct
     cli_print_t cli_print;                // Function to print text on the CLI terminal
     cli_help_t cli_help;                  // Function for general help
     void *context;                        // Context
@@ -46,8 +46,9 @@ typedef struct
 
 bool cli_set_help_callback(cli_struct_t *cli_struct, cli_help_t help_callback);
 bool cli_set_print_callback(cli_struct_t *cli_struct, cli_print_t cli_print_callback);
-void cli_set_commands(cli_struct_t *cli_struct, cli_command_t commands[], uint16_t count_of_commands);
+void cli_set_commands(cli_struct_t *cli_struct, cli_command_t* commands, uint16_t count_of_commands);
 void cli_add_command(cli_struct_t *cli_struct, cli_command_t command);
+void cli_append_commands(cli_struct_t *cli_struct, cli_command_t* commands, uint16_t count_of_commands);
 void cli_set_context(cli_struct_t *cli_struct, void *context);
 uint16_t cli_get_commands_count(cli_struct_t *cli_struct);
 void cli_forced_exit_process(cli_struct_t *cli_struct);
@@ -56,5 +57,5 @@ void cli_start_process(cli_struct_t *cli_struct);
 void cli_process_input(cli_struct_t *cli_struct, const char *input);
 
 #ifdef __cplusplus
-extern "C" {
+extern "C" }
 #endif

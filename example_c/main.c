@@ -8,7 +8,6 @@
 //              FUNCTIONS CALLS FOR FIRST COMMAND
 // ===============================================
 
-void first_command_help(void *context);
 void first_command_execute(void *context);
 bool first_command_event(void *context, const char *data);
 void first_command_exit(void *context);
@@ -17,7 +16,6 @@ void first_command_exit(void *context);
 //              FUNCTIONS CALLS FOR SECOND COMMAND
 // ===============================================
 
-void second_command_help(void *context);
 void second_command_execute(void *context);
 bool second_command_event(void *context, const char *data);
 void second_command_exit(void *context);
@@ -26,7 +24,6 @@ void second_command_exit(void *context);
 //              FUNCTIONS CALLS FOR LAST COMMAND
 // ===============================================
 
-void command_added_help(void *context);
 void command_added_execute(void *context);
 bool command_added_event(void *context, const char *data);
 void command_added_exit(void *context);

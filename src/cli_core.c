@@ -53,18 +53,18 @@ void cli_start_process(cli_struct_t *cli_struct)
 }
 
 // Function to set all the commands for the CLI
-void cli_set_commands(cli_struct_t *cli_struct, cli_command_t commands[], uint16_t count_of_commands)
+void cli_set_commands(cli_struct_t *cli_struct, cli_command_t* commands, uint16_t count_of_commands)
 {
-    if (!cli_struct)
+    if (!cli_struct || !commands || count_of_commands == 0)
         return;
 
-    if (count_of_commands > MAX_COMMANDS)
-    {
-        count_of_commands = MAX_COMMANDS;
+    cli_command_t* tmp = realloc(cli_struct->commands, count_of_commands * sizeof(cli_command_t));
+    if (!tmp) {
+        return;
     }
 
+    cli_struct->commands = tmp;
     memcpy(cli_struct->commands, commands, count_of_commands * sizeof(cli_command_t));
-
     cli_struct->count_of_commands = count_of_commands;
 }
 
@@ -74,11 +74,36 @@ void cli_add_command(cli_struct_t *cli_struct, cli_command_t command)
     if (!cli_struct)
         return;
 
-    if (cli_struct->count_of_commands == MAX_COMMANDS)
+    cli_command_t* tmp = realloc(cli_struct->commands,
+                                 (cli_struct->count_of_commands + 1) * sizeof(cli_command_t));
+    if (!tmp) {
         return;
+    }
 
+    cli_struct->commands = tmp;
     cli_struct->commands[cli_struct->count_of_commands] = command;
     cli_struct->count_of_commands++;
+}
+
+// Function to add a block of commands
+void cli_append_commands(cli_struct_t *cli_struct, cli_command_t* commands, uint16_t count_of_commands)
+{
+    if (!cli_struct || !commands || count_of_commands == 0)
+        return;
+
+    size_t new_count = cli_struct->count_of_commands + count_of_commands;
+
+    cli_command_t* tmp = realloc(cli_struct->commands, new_count * sizeof(cli_command_t));
+    if (!tmp) {
+        return;
+    }
+
+    cli_struct->commands = tmp;
+    memcpy(&cli_struct->commands[cli_struct->count_of_commands],
+           commands,
+           count_of_commands * sizeof(cli_command_t));
+
+    cli_struct->count_of_commands = new_count;
 }
 
 // Function to get the commands count
